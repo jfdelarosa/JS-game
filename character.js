@@ -4,8 +4,8 @@ function Character(){
 
   this.accel = 10;
   
-  this.lift = -20;
-  this.gravity = 0.8;
+  this.lift = -16;
+  this.gravity = 0.6;
   this.velocity = 0;
   
   this.show = function() {
