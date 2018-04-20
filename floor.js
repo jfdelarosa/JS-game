@@ -2,14 +2,12 @@ function Floor(){
 
   this.space = 100;
 
-  this.w1 = random(this.space, width - this.space);
+  this.w1 = random(0, width - this.space);
   this.left = width - (this.w1 + this.space);
 
   this.y = 0;
   this.x = 0;
   this.h = 20;
-
-  this.speed = 1;
 
   this.show = function() {
     fill(255);
@@ -18,7 +16,7 @@ function Floor(){
   }
 
   this.update = function() {
-    this.y += this.speed;
+    this.y += speed;
   }
 
   this.offscreen = function(){

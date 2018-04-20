@@ -1,16 +1,17 @@
 function Character(){
+  this.direction;
+
   this.x = width / 2;
   this.y = height / 2;
 
-  this.accel = 10;
+  this.accel = 6;
   
-  this.lift = -16;
-  this.gravity = 0.6;
-  this.velocity = 0;
+  this.size = 32;
+  this.standing = false;
   
   this.show = function() {
     fill(255);
-    ellipse(this.x, this.y, 32, 32);
+    ellipse(this.x, this.y, this.size, this.size);
   }
 
   this.left = function(){
@@ -21,14 +22,7 @@ function Character(){
     this.x += this.accel;
   }
   
-  this.jump = function(){
-    this.velocity += this.lift;
-  }
-
   this.update = function() {
-    this.velocity += this.gravity;
-    this.y += this.velocity;   
-
     if(this.x > width){
       this.x = width;
     }
@@ -37,14 +31,13 @@ function Character(){
       this.x = 0;
     }
 
-    if (this.y > height) {
+    if (this.y >= height) {
       this.y = height;
-      this.velocity = 0;
+      console.log("You lost");
     }
 
     if (this.y < 0) {
       this.y = 0;
-      this.velocity = 0;
     }
   }
 }
