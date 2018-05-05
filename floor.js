@@ -1,27 +1,12 @@
-function Floor(){
+function Floor(pos){
+  this.w = int(random(width/2, width));
+  this.h = 32;
+  this.y = (2 * height / 3) + random(-100, 100);
+  this.x = pos;
 
-  this.space = 100;
+  this.speed = 2;
 
-  this.w1 = random(0, width - this.space);
-  this.left = width - (this.w1 + this.space);
+  this.floor = createSprite(this.x, this.y, this.w, this.h);
+//  this.floor.addImage(loadImage("assets/floor.png"));
 
-  this.y = 0;
-  this.x = 0;
-  this.h = 20;
-
-  this.show = function() {
-    fill(255);
-    rect(this.x, this.y, this.w1, this.h);
-    rect(width - this.left, this.y, this.left, this.h);
-  }
-
-  this.update = function() {
-    this.y += speed;
-  }
-
-  this.offscreen = function(){
-    if(this.y > height){
-      return true;
-    }
-  }
 }

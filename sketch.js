@@ -1,56 +1,44 @@
-var character;
+var character = {};
 var points = 0;
-var floors = [];
-var speed = 1;
+var floors;
+var speed = 2;
+var currentPos;
 
 function setup(){
-  createCanvas(640, 480);
+  createCanvas(600, 400);
   character = new Character();
-  floors.push(new Floor());
+  floors = new Group();
+  currentPos = width / 3;
+  setInterval(function(){
+    points++;
+  }, 1000);
 }
 
 function draw(){
   background(0);
+  character.char.position.x += speed;
+  camera.position.x = character.char.position.x + width / 3;
+
+  //character.char.collide(floors);
+
   
   for(var i = floors.length-1; i >= 0; i--) {
-    floors[i].show();
-    floors[i].update();
-
-    if(character.x <= floors[i].w1 || character.x >= width - floors[i].left){
-      if(character.y - floors[i].h - character.size / 2 == floors[i].y){
-        character.y += speed;
-      }
+    if(character.char.collide(floors[i])){
+      character.char.velocity.y = 0;
     }
-
-    if(character.y + character.size / 2 >= floors[i].y && character.y - character.size / 2 <= floors[i].y + floors[i].h){
-      if(round(character.x - character.size / 2) <= round(floors[i].w1)){
-        character.x = floors[i].w1 + character.size / 2;
-      }
-      if(round(character.x + character.size / 2) >= round(width - floors[i].left)){
-        character.x = width - floors[i].left - character.size / 2;
-      }
-    }
-    
-    if(floors[i].offscreen()) {
-      floors.splice(i, 1);
+    if(floors[i].position.x < character.char.position.x - width) {
+      floors[i].remove();
     }
   }
-
-  character.show();
-  character.update();
   
-  if(keyIsDown(LEFT_ARROW)){
-    character.left();
+  character.update();
+  if(floors.length < 5){
+    var fl = new Floor(currentPos);
+    floors.add(fl.floor);
+    currentPos += fl.w;
   }
-
-  if(keyIsDown(RIGHT_ARROW)){
-    character.right();
-  }
-  if (frameCount % 100 == 0) {
-    points++;
-    floors.push(new Floor());
-  }
-  text(points, 10, 20);  
+  fill(255, 204, 0);
+  text(points, camera.position.x, 20); 
 }
 
 function keyPressed(){

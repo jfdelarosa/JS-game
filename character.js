@@ -1,42 +1,35 @@
 function Character(){
-  this.direction;
+  this.x = 0;
+  this.y = height / 3;
 
-  this.x = width / 2;
-  this.y = height / 2;
+  this.gravity = 0.2;
+  this.power = -5;
 
-  this.accel = 6;
-  
-  this.size = 32;
-  this.standing = false;
-  
-  this.show = function() {
-    fill(255);
-    ellipse(this.x, this.y, this.size, this.size);
-  }
+  this.spriteHeight = 32;
+  this.spriteWidth = 16;
 
-  this.left = function(){
-    this.x -= this.accel;
-  }
-  
-  this.right = function(){
-    this.x += this.accel;
+  this.char = createSprite(this.x, this.y - this.spriteHeight, this.spriteWidth, this.spriteHeight);
+  this.runAnim = this.char.addAnimation("run", "assets/2.png", "assets/3.png", "assets/4.png");
+  this.runAnim.offY = 16;
+  this.char.addAnimation("jump", "assets/6.png", "assets/salto.png", "assets/1.png");
+
+  this.jump = function(){
+    this.char.velocity.y = this.power;
+    this.char.changeAnimation("jump");
   }
   
   this.update = function() {
-    if(this.x > width){
-      this.x = width;
-    }
+    drawSprites();
 
-    if(this.x < 0){
-      this.x = 0;
-    }
+    this.char.velocity.y += this.gravity;
 
-    if (this.y >= height) {
-      this.y = height;
+    if(this.char.position.y >= height){
+      this.char.position.y = height - this.spriteHeight;
+      this.char.velocity.y = 0;
       console.log("You lost");
     }
 
-    if (this.y < 0) {
+    if(this.y < 0){
       this.y = 0;
     }
   }
